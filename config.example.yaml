@@ -1,0 +1,11 @@
+listen: 127.0.0.1:9000
+
+hooks:
+  hook1:
+    directory: /path/to/repo
+    execute: git pull
+    password: ee0ef8b640af43f7eba5eeff2521d86c83971145
+
+  hook2:
+    directory: /other/directory
+    execute: /usr/local/bin/other/cmd
