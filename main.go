@@ -45,7 +45,7 @@ func main() {
 		panic(err)
 	}
 
-	web.Get("/([0-9a-zA-Z]+)", handle)
+	web.Match("POST|GET", "/([0-9a-zA-Z]+)", handle)
 	web.Run(config.Listen)
 }
 
