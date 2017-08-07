@@ -1,8 +1,8 @@
-# git-webhook
+# webhook
 
 A generic webhook service.
 
-It will execute a sh command when receive a HTTP request.
+It will execute a `sh` command when receiving an HTTP request.
 
 ## Usage
 
