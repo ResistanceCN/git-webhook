@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/hoisie/web"
 	"gopkg.in/yaml.v2"
-	"fmt"
 	"os"
 	"io/ioutil"
 	"os/exec"
@@ -20,7 +19,7 @@ type Config struct {
 	Hooks   map[string]Hook
 }
 
-var config Config = Config{}
+var config Config
 
 func main() {
 	config = Config{
@@ -53,13 +52,11 @@ func handle(ctx *web.Context, name string) {
 
 	if !ok {
 		ctx.NotFound("Page not found")
-		fmt.Println("1")
 		return
 	}
 
 	if hook.Password != "" && ctx.Params["password"] != hook.Password {
 		ctx.NotFound("Page not found")
-		fmt.Println("2")
 		return
 	}
 
