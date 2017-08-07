@@ -6,6 +6,8 @@ import (
 	"os"
 	"io/ioutil"
 	"os/exec"
+	"bytes"
+	"time"
 )
 
 type Hook struct {
@@ -60,16 +62,25 @@ func handle(ctx *web.Context, name string) {
 		return
 	}
 
-	// var stderr bytes.Buffer
+	var output bytes.Buffer
 
 	cmd := exec.Command("sh", "-c", hook.Execute)
-	// cmd.Stderr = &stderr
+	cmd.Stdout = &output
+	cmd.Stderr = &output
 	cmd.Dir = hook.Directory
 
-	output, err := cmd.CombinedOutput()
+	err := cmd.Start()
+
 	if err != nil {
 		ctx.Abort(500, err.Error() + "\n\n")
 	}
 
-	ctx.Write(output)
+	timer := time.AfterFunc(30 * time.Second, func() {
+		cmd.Process.Kill()
+	})
+
+	cmd.Wait()
+	timer.Stop()
+
+	ctx.Write(output.Bytes())
 }
